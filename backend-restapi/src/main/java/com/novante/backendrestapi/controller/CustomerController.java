@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/customer")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -27,6 +28,13 @@ public class CustomerController {
     @GetMapping(value = "/getcustomer/{customerNumber}")
     public ResponseEntity<CustomerDTO> getCustomerByCustomerNumber(@PathVariable Long customerNumber){
         Customer foundCustomer = customerService.getCustomerByCustomerNumber(customerNumber);
+        CustomerDTO customerDTO = modelMapper.map(foundCustomer, CustomerDTO.class);
+        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+    }
+
+    @PatchMapping(value = "/updatecustomer/{customerNumber}")
+    public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody Customer customer, @PathVariable Long customerNumber){
+        Customer foundCustomer = customerService.updateCustomer(customer, customerNumber);
         CustomerDTO customerDTO = modelMapper.map(foundCustomer, CustomerDTO.class);
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
     }

@@ -35,4 +35,35 @@ public class CustomerService {
         }
         return foundCustomer;
     }
+
+    public Customer updateCustomer(Customer customer, Long customerNumber) {
+        Customer foundCustomer = null;
+        if (customer == null) {
+            // throw exception
+        } else {
+            foundCustomer = customerRepository.findCustomerByCustomerNumber(customerNumber);
+            if (foundCustomer == null) {
+                // throw exception
+            } else {
+                foundCustomer.setCustomerNumber(customer.getCustomerNumber());
+                if (customer.getOrgNr() != null) {
+                    foundCustomer.setOrgNr(customer.getOrgNr());
+                }
+                if (customer.getName() != null) {
+                    foundCustomer.setName(customer.getName());
+                }
+                if (customer.getAddress() != null) {
+                    foundCustomer.setAddress(customer.getAddress());
+                }
+                if (customer.getPhone() != null) {
+                    foundCustomer.setPhone(customer.getPhone());
+                }
+                if (customer.getEmail() != null) {
+                    foundCustomer.setEmail(customer.getEmail());
+                }
+                customerRepository.save(foundCustomer);
+            }
+        }
+        return foundCustomer;
+    }
 }
