@@ -2,6 +2,7 @@ package com.novante.backendrestapi.service;
 
 import com.novante.backendrestapi.entity.Customer;
 import com.novante.backendrestapi.repository.CustomerRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,4 +27,12 @@ public class CustomerService {
         }
     }
 
+    public Customer getCustomerByCustomerNumber(Long customerNumber) {
+        Customer foundCustomer = customerRepository.findCustomerByCustomerNumber(customerNumber);
+
+        if (foundCustomer == null) {
+            // throw exception
+        }
+        return foundCustomer;
+    }
 }
