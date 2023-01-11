@@ -39,4 +39,17 @@ public class CustomerController {
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/deletecustomer/{customerNumber}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable Long customerNumber){
+        ResponseEntity<String> res = null;
+        // change to trycatch later?
+        int customerDeleteResult = customerService.deleteCustomer(customerNumber);
+        if (customerDeleteResult == 1){
+            res = new ResponseEntity<>("Customer with customer number " + customerNumber + " successfully deleted.", HttpStatus.OK);
+        } else if (customerDeleteResult == 0){
+            res = new ResponseEntity<>("Customer with customer number " + customerNumber + " not found.", HttpStatus.NOT_FOUND);
+        }
+        return res;
+    }
+
 }

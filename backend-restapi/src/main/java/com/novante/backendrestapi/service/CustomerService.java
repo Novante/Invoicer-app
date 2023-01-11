@@ -66,4 +66,16 @@ public class CustomerService {
         }
         return foundCustomer;
     }
+
+    public int deleteCustomer(Long customerNumber) {
+        Customer foundCustomer = customerRepository.findCustomerByCustomerNumber(customerNumber);
+
+        if (foundCustomer == null){
+            // exception
+            return 0;
+        } else {
+            customerRepository.delete(foundCustomer);
+        }
+        return 1;
+    }
 }
