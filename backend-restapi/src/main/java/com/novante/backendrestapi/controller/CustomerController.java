@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
@@ -30,6 +33,16 @@ public class CustomerController {
         Customer foundCustomer = customerService.getCustomerByCustomerNumber(customerNumber);
         CustomerDTO customerDTO = modelMapper.map(foundCustomer, CustomerDTO.class);
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getallcustomers")
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers(){
+        List<Customer> customerList = customerService.getAllCustomers();
+        List<CustomerDTO> customerDTOList = customerList
+                .stream()
+                .map(customer -> modelMapper.map(customer, CustomerDTO.class))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(customerDTOList, HttpStatus.OK);
     }
 
     @PatchMapping(value = "/updatecustomer/{customerNumber}")

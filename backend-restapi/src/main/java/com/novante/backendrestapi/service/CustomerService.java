@@ -5,6 +5,8 @@ import com.novante.backendrestapi.repository.CustomerRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CustomerService {
 
@@ -22,6 +24,9 @@ public class CustomerService {
             if (foundCustomer != null) {
                 // throw exception
             } else {
+                if (customer.getCustomerNumber() == null){
+                    customer.setCustomerNumber(customerRepository.findHighestCustomerNumber() + 1);
+                }
                 customerRepository.save(customer);
             }
         }
@@ -77,5 +82,13 @@ public class CustomerService {
             customerRepository.delete(foundCustomer);
         }
         return 1;
+    }
+
+    public List<Customer> getAllCustomers() {
+        List<Customer> allCustomers = customerRepository.findAll();
+        if (allCustomers.size() == 0){
+            // throw error
+        }
+        return allCustomers;
     }
 }
