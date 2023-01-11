@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
-    @Query("SELECT a FROM Customer a WHERE a.customerNumber =: customerNumber")
+    @Query("SELECT a FROM Customer a WHERE a.customerNumber = :customerNumber")
     Customer findCustomerByCustomerNumber(@Param("customerNumber") Long customerNumber);
 
 }
