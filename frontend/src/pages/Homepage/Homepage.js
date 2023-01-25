@@ -18,6 +18,10 @@ const Homepage = (props) => {
 
     const [pageToRender, setPageToRender] = useState(0);
 
+    useEffect(() => {
+        console.log(pageToRender)
+    },[pageToRender])
+
 
     return (
         <div style={{display: 'flex', marginTop: '80px'}}>
