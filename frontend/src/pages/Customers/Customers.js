@@ -1,10 +1,14 @@
 import {Table} from "antd";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import './Customers.css'
+import CustomerModal from "../../components/CustomersModal/CustomerModal";
+import {useClickOutsideModal} from "../../utils/hooks";
 
 const Customers = ({customers}) => {
 
     const [cus, setCus] = useState(null)
+    const [renderModal, setRenderModal] = useState(false)
+    const modalRef = useRef()
 
     useEffect(() => {
         if (customers !== null) {
@@ -13,8 +17,11 @@ const Customers = ({customers}) => {
             })
             setCus(customers)
         }
-
     }, [customers])
+
+    useClickOutsideModal(modalRef, () => setRenderModal(false))
+
+
 
     const columns = [
         {
@@ -55,17 +62,27 @@ const Customers = ({customers}) => {
             key: 'creditLimit'
         }]
 
+    const hideModal = () => {
+        setRenderModal(false)
+    }
+
 
     return (
         <div style={{width: '80%'}}>
             <Table onRow={(record, rowIndex) => {
                 return {
                     onClick: (e) => {
-                        console.log(record)
+                        setRenderModal(true)
                     }
                 }
             }
             } bordered="true" expandable="false" columns={columns} dataSource={cus} size={"small"}></Table>
+            <div style={{position: "relative", height: '80%', width: '100%'}} ref={modalRef}>
+                <CustomerModal show={renderModal} hideModal={hideModal}>
+
+                </CustomerModal>
+            </div>
+
         </div>)
 }
 export default Customers;
